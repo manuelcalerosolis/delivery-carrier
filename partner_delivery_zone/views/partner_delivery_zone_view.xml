@@ -7,13 +7,24 @@
         <field name="name">partner.delivery.zone.form</field>
         <field name="model">partner.delivery.zone</field>
         <field name="arch" type="xml">
-            <form string="Delivery Zone">
-                <sheet>
-                    <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                    </group>
-                </sheet>
+            <form string="Delivery Route">
+                <group>
+                    <field name="name"/>
+                </group>
+                <group>
+                    <field name="partner_ids">
+                        <tree>
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="zip"/>
+                            <field name="phone"/>
+                        </tree>
+                    </field>
+                </group>
             </form>
         </field>
     </record>
@@ -23,7 +34,6 @@
         <field name="model">partner.delivery.zone</field>
         <field name="arch" type="xml">
             <tree string="Delivery Zone">
-                <field name="code"/>
                 <field name="name"/>
             </tree>
         </field>
@@ -34,7 +44,6 @@
         <field name="model">partner.delivery.zone</field>
         <field name="arch" type="xml">
             <search string="Delivery Zone">
-                <field name="code"/>
                 <field name="name"/>
             </search>
         </field>
@@ -50,7 +59,9 @@
         </field>
     </record>
 
-    <menuitem id="partner_delivery_zone_menu" parent="sale.menu_sale_config"
-              action="partner_delivery_zone_action" sequence="30"/>
+    <menuitem id="partner_delivery_zone_menu"
+              parent="sale.menu_sale_config"
+              action="partner_delivery_zone_action"
+              sequence="30"/>
 
 </odoo>

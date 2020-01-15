@@ -78,7 +78,7 @@ class TestPartnerDeliveryZone(SavepointCase):
 
     def test_default_line_discount_value(self):
         res = self.partner.fields_view_get(
-            view_id=self.env.ref('partner_delivery_zone.view_partner_form').id,
+            view_id=self.env.ref('partner_delivery_zone_extended.view_partner_form').id,
             view_type='form')
         ctx = self._get_ctx_from_view(res)
         self.assertTrue('default_delivery_zone_id' in ctx)
