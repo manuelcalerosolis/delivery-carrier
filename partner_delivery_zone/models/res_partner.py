@@ -40,7 +40,7 @@ class ResPartner(models.Model):
             if partner_fields:
                 partner_field = partner_fields[0]
                 context = partner_field.attrib.get("context", "{}").replace(
-                    "{", "{'default_delivery_zone_id': delivery_zone_id, ", 1,
+                    "{", "{'default_delivery_zone_ids': delivery_zone_ids, ", 1,
                 )
                 partner_field.attrib['context'] = context
                 res['arch'] = etree.tostring(partner_xml)

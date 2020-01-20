@@ -84,10 +84,6 @@ class SaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
-        logging.info("create***************************************************")
-        logging.info(vals)
-        logging.info(self.partner_id.id)
         self.env['partner.delivery.zone.visit'].create_if_not_exist(vals['delivery_zone_id'], vals['partner_id'])
         return super(SaleOrder, self).create(vals)
 
-{'require_payment': True, 'picking_policy': 'direct', 'warehouse_id': 1, 'opportunity_id': False, 'note': '', 'campaign_id': False, 'analytic_account_id': False, 'delivery_zone_id': 10, 'fiscal_position_id': False, 'client_order_ref': False, 'incoterm': False, 'medium_id': False, 'sale_order_template_id': False, 'source_id': False, 'partner_invoice_id': 19, 'validity_date': False, 'pricelist_id': 1, 'message_attachment_count': 0, 'user_id': 1, 'require_signature': True, 'company_id': 1, 'team_id': 1, 'commitment_date': False, 'payment_term_id': 3, 'origin': False, 'partner_id': 19, 'tag_ids': [[6, False, []]], 'partner_shipping_id': 19, 'date_order': '2020-01-15 12:06:21'}
