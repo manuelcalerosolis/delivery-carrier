@@ -6,13 +6,13 @@ from odoo import api, fields, models
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    delivery_zone_id = fields.Many2one(
-        comodel_name="partner.delivery.zone",
-        string="Delivery Zone",
-        index=True,
-    )
+    def _get_partner_delivery_zone(self):
+        return int(self.env['ir.config_parameter'].sudo().get_param('selected.partner.delivery.zone', 0))
 
-    @api.onchange('partner_id')
-    def onchange_partner_id_zone(self):
-        if self.partner_id.delivery_zone_id:
-            self.delivery_zone_id = self.partner_id.delivery_zone_id
+    delivery_zone_id = fields.Many2one(
+        comodel_name='partner.delivery.zone',
+        string="Delivery Zone",
+        ondelete='restrict',
+        index=True,
+        default=_get_partner_delivery_zone,
+    )

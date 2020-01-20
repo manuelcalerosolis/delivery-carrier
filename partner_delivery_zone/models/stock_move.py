@@ -8,6 +8,5 @@ class StockMove(models.Model):
 
     def _get_new_picking_values(self):
         vals = super()._get_new_picking_values()
-        vals['delivery_zone_id'] =\
-            self.sale_line_id.order_id.delivery_zone_id.id
+        vals['delivery_zone_id'] = self.sale_line_id.order_id.delivery_zone_id.id
         return vals
