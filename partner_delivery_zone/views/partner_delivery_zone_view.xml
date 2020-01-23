@@ -15,7 +15,7 @@
                     <field name="partner_ids">
                         <tree>
                             <field name="sequence" widget="handle"/>
-                            <field name="name"/>
+                            <field name="display_name"/>
                             <field name="street"/>
                             <field name="street2"/>
                             <field name="city"/>
