@@ -16,11 +16,10 @@
                         <tree editable="bottom">
                             <field name="sequence" widget="handle"/>
                             <field name="partner_id"/>
-                            <field name="display_name"/>
                             <field name="street"/>
                             <field name="street2"/>
                             <field name="city"/>
-<!--                            <field name="state_id"/>-->
+                            <field name="state_id"/>
                             <field name="zip"/>
                             <field name="phone"/>
                         </tree>

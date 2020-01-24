@@ -8,23 +8,12 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     delivery_zone_ids = fields.Many2many(
-        'res.partner',
+        'partner.delivery.zone',
         'delivery_zone_partner_rel',
         'partner_id',
         'delivery_zone_id',
         string='Delivery Zones'
     )
-
-    # delivery_zone_sequence = fields.Integer(
-    #     string="Sequence",
-    #     related="delivery_zone_ids.sequence",
-    #     readonly=True,
-    # )
-
-    # delivery_zone_ids = fields.Many2many(
-    #     comodel_name='partner.delivery.zone',
-    #     string='Delivery Zone',
-    # )
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
