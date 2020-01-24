@@ -1,8 +1,8 @@
 # Copyright 2018 Tecnativa - Sergio Teruel
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
-from datetime import date
 
 import logging
 
@@ -13,10 +13,13 @@ class SaleOrder(models.Model):
     def _get_default_partner(self):
         zone_id = self._get_partner_delivery_zone()
         visit_ids = self.env['partner.delivery.zone.visit'].get_partner_visit_today(zone_id)
-        for partner in self.env['partner.delivery.zone'].search(
-            [('id', '=', zone_id)]).partner_ids.sorted(lambda p: p.sequence):
-            if partner.id not in visit_ids:
-                return partner
+        partner_zones_ids = self.env['partner.delivery.zone'].search(
+            [('id', '=', zone_id)]).partner_zones_ids.sorted(
+            lambda p: p.sequence)
+
+        for partner_zone in partner_zones_ids:
+            if partner_zone.partner_id not in visit_ids:
+                return partner_zone.partner_id
 
     def _get_partner_delivery_zone(self):
         return int(self.env['ir.config_parameter'].sudo().get_param('selected.partner.delivery.zone', 0))
@@ -72,12 +75,12 @@ class SaleOrder(models.Model):
         if self.partner_id.id:
             self.env['partner.delivery.zone.visit'].create_if_not_exist(self.delivery_zone_id.id, self.partner_id.id)
 
-        # get next partner or error
+        # get visits
         visit_ids = self.env['partner.delivery.zone.visit'].get_partner_visit_today(self.delivery_zone_id.id)
 
-        for partner in self.delivery_zone_id.partner_ids.sorted(lambda p: p.sequence):
-            if partner.id not in visit_ids:
-                self.partner_id = partner
+        for partner in self.delivery_zone_id.partner_zones_ids.sorted(lambda p: p.sequence):
+            if partner.partner_id.id not in visit_ids:
+                self.partner_id = partner.partner_id
                 return
 
         raise ValidationError(_("No more partners in this delivery zone"))

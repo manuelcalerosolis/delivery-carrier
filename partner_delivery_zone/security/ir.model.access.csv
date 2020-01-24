@@ -5,4 +5,7 @@ access_partner_delivery_zone_portal,partner.delivery.zone.portal,model_partner_d
 access_partner_delivery_zone_visit_user,access_partner_delivery_zone_visit_user,model_partner_delivery_zone_visit,base.group_user,1,0,0,0
 access_partner_delivery_zone_visit_manager,access_partner_delivery_zone_visit_manager,model_partner_delivery_zone_visit,sales_team.group_sale_manager,1,1,1,1
 access_partner_delivery_zone_visit_portal,partner.delivery.zone.portal,model_partner_delivery_zone_visit,base.group_portal,1,0,0,0
+access_delivery_zone_partner_rel_user,delivery.zone.partner.rel.user,model_delivery_zone_partner_rel,base.group_user,1,0,0,0
+access_delivery_zone_partner_rel_manager,delivery.zone.partner.rel.manager,model_delivery_zone_partner_rel,sales_team.group_sale_manager,1,1,1,1
+access_delivery_zone_partner_rel_portal,delivery.zone.partner.rel.portal,model_delivery_zone_partner_rel,base.group_portal,1,0,0,0
 
