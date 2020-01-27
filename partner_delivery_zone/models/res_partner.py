@@ -7,13 +7,10 @@ from lxml import etree
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    delivery_zone_ids = fields.Many2many(
-        'partner.delivery.zone',
-        'delivery_zone_partner_rel',
-        'partner_id',
-        'delivery_zone_id',
-        string='Delivery Zones'
-    )
+    # delivery_zone_ids = fields.One2many(
+    #     string='Delivery Zones',
+    #     comodel_name='delivery.zone.partner.line',
+    #     inverse_name='partner_id')
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):

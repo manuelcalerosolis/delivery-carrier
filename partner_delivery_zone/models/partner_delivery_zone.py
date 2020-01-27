@@ -11,17 +11,10 @@ class PartnerDeliveryZone(models.Model):
         string='Zone',
         required=True,
     )
-    partner_ids = fields.Many2many(
-        'res.partner',
-        'delivery_zone_partner_rel',
-        'delivery_zone_id',
-        'partner_id',
-        string='Partners',
-    )
     partner_zones_ids = fields.One2many(
-        'delivery_zone.partner_rel',
+        'delivery.zone.partner.line',
         'delivery_zone_id',
-        string='Partner Zones',
+        string='Partner Zones Line',
         auto_join=True,
     )
     visit_ids = fields.One2many(
@@ -30,9 +23,14 @@ class PartnerDeliveryZone(models.Model):
         string='Delivery Zone Visit',
         auto_join=True,
     )
+    sale_order_ids = fields.One2many(
+        'sale.order',
+        'delivery_zone_id',
+        string='Delivery Zone',
+        auto_join=True,
+    )
 
     @api.multi
     def set_values(self):
         super(PartnerDeliveryZone, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param("partner.delivery.zone", self.code or '')
-

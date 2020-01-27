@@ -5,10 +5,10 @@ from odoo import fields, models, api
 import logging
 
 
-class DeliveryZonePartnerRel(models.Model):
-    _name = 'delivery_zone.partner_rel'
-    _table = 'delivery_zone_partner_rel'
-    _description = 'Partner delivery zone relation'
+class DeliveryZonePartnerLine(models.Model):
+    _name = 'delivery.zone.partner.line'
+    _table = 'delivery_zone_partner_line'
+    _description = 'Partner delivery zone line'
     _rec_name = 'partner_id'
 
     delivery_zone_id = fields.Many2one(
@@ -20,7 +20,6 @@ class DeliveryZonePartnerRel(models.Model):
     partner_id = fields.Many2one(
         'res.partner',
         string='Partner',
-        ondelete='cascade',
         required=True
     )
 
@@ -77,8 +76,8 @@ class DeliveryZonePartnerRel(models.Model):
 
     @api.model
     def create(self, values):
-        return super(DeliveryZonePartnerRel, self).create(values)
+        return super(DeliveryZonePartnerLine, self).create(values)
 
     @api.multi
     def write(self, values):
-        return super(DeliveryZonePartnerRel, self).write(values)
+        return super(DeliveryZonePartnerLine, self).write(values)
