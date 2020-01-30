@@ -9,18 +9,18 @@ class DeliveryZonePartnerLine(models.Model):
     _name = 'delivery.zone.partner.line'
     _table = 'delivery_zone_partner_line'
     _description = 'Partner delivery zone line'
-    _rec_name = 'partner_id'
+    _rec_name = 'delivery_zone_id'
 
     delivery_zone_id = fields.Many2one(
         'partner.delivery.zone',
         string='Delivery Zone',
         ondelete='cascade',
-        required=True
+        required=True,
     )
     partner_id = fields.Many2one(
         'res.partner',
         string='Partner',
-        required=True
+        required=True,
     )
 
     @api.multi

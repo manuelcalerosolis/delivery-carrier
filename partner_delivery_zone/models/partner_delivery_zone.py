@@ -34,3 +34,4 @@ class PartnerDeliveryZone(models.Model):
     def set_values(self):
         super(PartnerDeliveryZone, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param("partner.delivery.zone", self.code or '')
+

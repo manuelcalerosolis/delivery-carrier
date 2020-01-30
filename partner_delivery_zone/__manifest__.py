@@ -24,9 +24,14 @@
         'views/res_partner_view.xml',
         'views/sale_order_view.xml',
         'views/stock_picking_view.xml',
+
         'views/report_deliveryslip.xml',
         'views/report_shipping.xml',
 
+        'reports/report.xml',
+
         'wizards/wizards_select_visits_routes.xml',
+        'wizards/wizards_report_sale_delivery_zone.xml',
     ],
 }
+
