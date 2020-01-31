@@ -1,11 +1,16 @@
 # Copyright 2018 Tecnativa - Sergio Teruel
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import fields, models, api
 
+from odoo import fields, models, api
+from datetime import datetime
+
+import logging
 
 class PartnerDeliveryZone(models.Model):
     _name = 'partner.delivery.zone'
     _description = 'Partner delivery zone'
+
+    date = datetime.utcnow()
 
     name = fields.Char(
         string='Zone',
@@ -35,3 +40,28 @@ class PartnerDeliveryZone(models.Model):
         super(PartnerDeliveryZone, self).set_values()
         self.env['ir.config_parameter'].sudo().set_param("partner.delivery.zone", self.code or '')
 
+    @api.multi
+    def get_quotations_today(self):
+        return self.env['sale.order'].search(
+            [('delivery_zone_id', '=', self.id),
+             ('state', '=', 'draft'),
+             ('date_order', '>=', datetime.combine(self.date, datetime.min.time())),
+             ('date_order', '<=', datetime.combine(self.date, datetime.max.time()))]
+        )
+
+    @api.multi
+    def get_orders_today(self):
+        return self.env['sale.order'].search(
+            [('delivery_zone_id', '=', self.id),
+             ('state', '!=', 'draft'),
+             ('date_order', '>=', datetime.combine(self.date, datetime.min.time())),
+             ('date_order', '<=', datetime.combine(self.date, datetime.max.time()))]
+        )
+
+    @api.multi
+    def get_invoices_today(self):
+        return self.env['account.invoice'].search(
+            [('delivery_zone_id', '=', self.id),
+             ('state', '!=', 'draft'),
+             ('date_invoice', '=', self.date)]
+        )

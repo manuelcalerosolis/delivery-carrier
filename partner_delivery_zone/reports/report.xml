@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-<!--    <template id="invoice_partner_delivery_zone">-->
-<!--        <t t-call="web.html_container">-->
-<!--            <t t-foreach="docs" t-as="o">-->
-<!--                <t t-call="web.external_layout">-->
-<!--                    <div class="page">-->
-<!--                        <h2>Report title</h2>-->
-<!--                        <p>This object's name is <span t-field="o.name"/></p>-->
-<!--                    </div>-->
-<!--                </t>-->
-<!--            </t>-->
-<!--        </t>-->
-<!--    </template>-->
-
     <template id="invoice_partner_delivery_zone">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
@@ -26,16 +13,131 @@
         <t t-call="web.external_layout">
             <div class="page">
                 <div class="oe_structure"/>
-                <div class="row">
-                    <div class="col-6">
-                        <strong>Name:</strong>
-                        <span t-field="doc.name"/>
-                        <strong>Partners:</strong>
-                        <t t-foreach="doc.partner_zones_ids" t-as="partner">
-                            <span t-field="partner.partner_id.name"/>
-                        </t>
-                    </div>
+
+                <t t-set="quotations" t-value="doc.get_quotations_today()"/>
+                <div t-if="quotations">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Presupuesto</th>
+                            <th>Cliente</th>
+                            <th class="text-right">Importe</th>
+                        </thead>
+                        <tbody>
+                            <t t-set="quotation_subtotal" t-value="0"/>
+                            <t t-foreach="quotations" t-as="quotation">
+                                <tr>
+                                    <td>
+                                        <span t-esc="quotation.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="quotation.partner_id.name"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="quotation.amount_total"/>
+                                    </td>
+                                </tr>
+                                <t t-set="quotation_subtotal" t-value="quotation_subtotal + quotation.amount_total"/>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <strong>Total presupuesto</strong>
+                                </td>
+                                <td/>
+                                <td align="right">
+                                    <strong>
+                                        <span t-esc="quotation_subtotal"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
+
+                <t t-set="orders" t-value="doc.get_orders_today()"/>
+                <div t-if="orders">
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Pedido</th>
+                            <th>Cliente</th>
+                            <th class="text-right">Importe</th>
+                        </thead>
+                        <tbody>
+                            <t t-set="order_subtotal" t-value="0"/>
+                            <t t-foreach="orders" t-as="order">
+                                <tr>
+                                    <td>
+                                        <span t-esc="order.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="order.partner_id.name"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="order.amount_total"/>
+                                    </td>
+                                </tr>
+                                <t t-set="order_subtotal" t-value="order_subtotal + order.amount_total"/>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <strong>Total pedidos</strong>
+                                </td>
+                                <td/>
+                                <td align="right">
+                                    <strong>
+                                        <span t-esc="order_subtotal"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <t t-set="invoices" t-value="doc.get_invoices_today()"/>
+                <div t-if="invoices">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Facturas</th>
+                            <th>Cliente</th>
+                            <th class="text-right">Importe</th>
+                        </thead>
+                        <tbody>
+                            <t t-set="invoice_subtotal" t-value="0"/>
+                            <t t-foreach="invoices" t-as="invoice">
+                                <tr>
+                                    <td>
+                                        <span t-esc="invoice.number"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="invoice.partner_id.name"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="invoice.amount_total_signed"/>
+                                    </td>
+                                </tr>
+                                <t t-set="invoice_subtotal" t-value="invoice_subtotal + invoice.amount_total_signed"/>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <strong>Total facturas</strong>
+                                </td>
+                                <td/>
+                                <td align="right">
+                                    <strong>
+                                        <span t-esc="invoice_subtotal"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
                 <div class="oe_structure"/>
             </div>
         </t>
