@@ -59,9 +59,24 @@ class PartnerDeliveryZone(models.Model):
         )
 
     @api.multi
+    def get_pickings_today(self):
+        return self.env['stock.picking'].search(
+            [('delivery_zone_id', '=', self.id),
+             ('scheduled_date', '>=', datetime.combine(self.date, datetime.min.time())),
+             ('scheduled_date', '<=', datetime.combine(self.date, datetime.max.time()))]
+        )
+
+    @api.multi
     def get_invoices_today(self):
         return self.env['account.invoice'].search(
             [('delivery_zone_id', '=', self.id),
              ('state', '!=', 'draft'),
              ('date_invoice', '=', self.date)]
+        )
+
+    @api.multi
+    def get_payments_today(self):
+        return self.env['account.payment'].search(
+            [('delivery_zone_id', '=', self.id),
+             ('payment_date', '=', self.date)]
         )
